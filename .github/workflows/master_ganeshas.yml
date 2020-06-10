@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - ganeshas
+name: Build and deploy Python app to Azure Web App - ganeshas
 
 on:
   push:
@@ -10,26 +10,24 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@master
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
+    - name: Set up Python version
+      uses: actions/setup-python@v1
       with:
-        node-version: '12.13.0'
+        python-version: '3.7'
 
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+    - name: Build using AppService-Build
+      uses: azure/appservice-build@v1
+      with:
+        platform: python
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
       with:
         app-name: 'ganeshas'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_bcf15645a4f74c1698324e2ca0152c3a }}
-        package: .
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_498b7699dfd9466a81091e4a9be496c6 }}
